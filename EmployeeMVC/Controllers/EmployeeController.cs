@@ -57,6 +57,7 @@ namespace EmployeeMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                employee.DesignationId = 6;
                 _db.Employee.Add(employee);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -106,6 +107,7 @@ namespace EmployeeMVC.Controllers
             }
             return View();
         }
+        [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
             var employee = await _db.Employee.FindAsync(id);

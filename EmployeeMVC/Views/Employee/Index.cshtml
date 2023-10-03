@@ -50,7 +50,7 @@
 
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = employee.EmpId }, new { @class = "btn btn-success" })
-                    @Html.ActionLink("Delete", "Delete", new { id = employee.EmpId }, new { @class = "btn btn-danger" })
+                    <button type="button" class="btn btn-danger" onclick="deletealert(@employee.EmpId)">Delete</button>
                 </td>
             </tr>
         }
