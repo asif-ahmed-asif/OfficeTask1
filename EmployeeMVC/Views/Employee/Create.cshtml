@@ -30,13 +30,13 @@
         <div class="form-group mb-3">
             @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label" })
             @Html.DropDownListFor(model => model.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"),
-            "Select a Department", new { @class = "form-control", id = "Department" })
+            "--Select--", new { @class = "form-control", id = "Department" })
             @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
         </div>
         <div class="form-group mb-3">
             @Html.LabelFor(model => model.DesignationId, new { @class = "control-label" })
-            @Html.DropDownListFor(model => model.DesignationId, Enumerable.Empty<SelectListItem>
-                (), "Select a Designation", new { @class = "form-control", id = "Designation" })
+            @Html.DropDownListFor(model => model.DesignationId, Enumerable.Empty<SelectListItem>(), 
+            "--Select--", new { @class = "form-control", id = "Designation" })
                 @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
         </div>
 
@@ -53,9 +53,22 @@
 @section Scripts {
 <script>
     $(document).ready(function () {
+    var dId = document.getElementById('Department').value;
+    if(dId != ""){
+        AjaxCall(dId);
+    }
+
         $("#Department").change(function () {
             var departmentId = $(this).val();
+            if(departmentId == ""){
+                var designationDropdown = $("#Designation");
+                designationDropdown.empty();
+                designationDropdown.append($('<option></option>').val('').text('--Select--'));
+            }
+            AjaxCall(departmentId);
+        });
 
+        function AjaxCall(departmentId){
             $.ajax({
                 url: '@Url.Action("GetDesignations", "Employee")',
                 type: 'GET',
@@ -65,7 +78,7 @@
                     console.log(data);
                     var designationDropdown = $("#Designation");
                     designationDropdown.empty();
-                    designationDropdown.append($('<option></option>').val('').text('Select Designation'));
+                    designationDropdown.append($('<option></option>').val('').text('--Select--'));
                     $.each(data, function (index, item) {
                         designationDropdown.append($('<option></option>').val(item.Value).text(item.Text));
                     });
@@ -74,7 +87,7 @@
 
                 }
             });
-        });
+        }
     });
 </script>
 }

@@ -16,7 +16,7 @@
 <table class="table table-hover table-bordered table-striped" style="width:100%">
     <thead>
         <tr class="text-center">
-            <th>Id</th>
+            <th>#</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -26,11 +26,14 @@
         </tr>
     </thead>
     <tbody>
+        @{ 
+            int counter = 1;
+        }
         @foreach (var employee in Model)
         {
             <tr class="text-center">
                 <td>
-                    @employee.EmpId
+                    @counter
                 </td>
                 <td>
                     @employee.Name
@@ -53,6 +56,7 @@
                     <button type="button" class="btn btn-danger" onclick="deletealert(@employee.EmpId)">Delete</button>
                 </td>
             </tr>
+            counter++;
         }
     </tbody>
 </table>

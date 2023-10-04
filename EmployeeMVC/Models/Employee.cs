@@ -11,7 +11,7 @@ namespace EmployeeMVC.Models
     {
         [Key]
         public int EmpId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Name is Required")]
         public string Name { get; set; }
         [Required]
         public string Mobile { get; set; }

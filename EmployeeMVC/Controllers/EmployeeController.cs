@@ -33,11 +33,7 @@ namespace EmployeeMVC.Controllers
 
         public async Task<ActionResult> Create()
         {
-            ViewBag.Departments = await _db.Department.Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name
-            }).ToListAsync();
+            await ViewBagForDepartment();
 
             return View();
         }
@@ -65,6 +61,12 @@ namespace EmployeeMVC.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            else
+            {
+                await ViewBagForDepartment();
+            }
+           
+
             return View();
         }
 
@@ -72,19 +74,8 @@ namespace EmployeeMVC.Controllers
         {
             var employee = await _db.Employee.FindAsync(id);
 
-            ViewBag.Departments = await _db.Department.Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name
-            }).ToListAsync();
-
-            ViewBag.Designations = await _db.Designation
-                .Where(d => d.DepartmentId == employee.DepartmentId)
-                .Select(x => new SelectListItem
-                {
-                    Value = x.Id.ToString(),
-                    Text = x.Name
-                }).ToListAsync();
+            await ViewBagForDepartment();
+            await ViewBagForDesignation(employee.DepartmentId);
 
             return View(employee);
         }
@@ -108,8 +99,36 @@ namespace EmployeeMVC.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            else
+            {
+                await ViewBagForDepartment();
+                await ViewBagForDesignation(employee.DepartmentId);
+            }
             return View();
         }
+
+        private async Task<ActionResult> ViewBagForDepartment()
+        {
+            ViewBag.Departments = await _db.Department.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToListAsync();
+
+            return null;
+        }
+        private async Task<ActionResult> ViewBagForDesignation(int id)
+        {
+            ViewBag.Designations = await _db.Designation
+                .Where(d => d.DepartmentId == id)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                }).ToListAsync();
+            return null;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
