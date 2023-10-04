@@ -12,13 +12,16 @@ namespace EmployeeMVC.Controllers
 {
     public class EmployeeController : Controller
     {
+
         public EmployeeController(){}
         private DataContext _db = new DataContext();
 
+        //private readonly DataContext _db;
         //public EmployeeController(DataContext db)
         //{
         //    _db = db;
         //}
+
         public async Task<ActionResult> Index()
         {
             var employees = await _db.Employee
@@ -39,7 +42,8 @@ namespace EmployeeMVC.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetDesgnations(int id)
+        [HttpGet]
+        public async Task<ActionResult> GetDesignations(int id)
         {
             var designations = await _db.Designation
                 .Where(d => d.DepartmentId == id)
@@ -49,7 +53,7 @@ namespace EmployeeMVC.Controllers
                     Text = x.Name
                 }).ToListAsync();
 
-            return Json(designations);
+            return Json(designations, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -57,7 +61,6 @@ namespace EmployeeMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                employee.DesignationId = 6;
                 _db.Employee.Add(employee);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
