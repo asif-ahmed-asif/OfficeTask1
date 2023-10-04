@@ -26,7 +26,7 @@
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             int counter = 1;
         }
         @foreach (var employee in Model)
@@ -63,6 +63,7 @@
 
 @section Scripts{
     <script>
+        var newUrl= '@Url.Action("Index","Employee")';
         function deletealert(id) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -75,12 +76,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post(`/Employee/Delete?id=${id}`, function (success) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
-                        location.reload(true);
+                        TempData["success"] = "Employee Successfully Removed!";
+                        window.location.href = newUrl;
 
                     });
 

@@ -59,6 +59,7 @@ namespace EmployeeMVC.Controllers
             {
                 _db.Employee.Add(employee);
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Employee Successfully Added!";
                 return RedirectToAction("Index");
             }
             else
@@ -97,6 +98,7 @@ namespace EmployeeMVC.Controllers
                 employeeDetails.DesignationId = employee.DesignationId;
 
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Employee Successfully Updated!";
                 return RedirectToAction("Index");
             }
             else
@@ -137,16 +139,18 @@ namespace EmployeeMVC.Controllers
             {
                 _db.Employee.Remove(employee);
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Employee Successfully Removed!";
                 return RedirectToAction("Index");
             }
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> IsEmailUnique(string email)
+        public async Task<bool> IsEmailUnique(string email)
         {
             var isUnique = await _db.Employee.AnyAsync(e => e.Email == email);
-            return Json(!isUnique, JsonRequestBehavior.AllowGet);
+            // return Json(!isUnique, JsonRequestBehavior.AllowGet);
+            return !isUnique;
         }
 
         [HttpPost]
