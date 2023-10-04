@@ -4,54 +4,77 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="row">
-    <div class="mx-auto col-10 col-md-8 col-lg-6">
-        <h2>Add New Employee</h2><hr />
-        @using (Html.BeginForm("Create", "Employee", FormMethod.Post))
-        {
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
 
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.Mobile, new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
-        </div>
+<div class="card mx-auto" style="width: 40rem;">
+    <div class="card-body">
+        <h4 class="card-title text-center mb-4">Add New Employee</h4><hr />
+        <div class="row">
+            <div class="mx-auto col-lg-8">
+                @using (Html.BeginForm("Create", "Employee", FormMethod.Post))
+                {
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label fw-bold" })
+                                <span class="text-danger fw-bold">*</span>
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter Your Name" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger fw-bold" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Mobile, new { @class = "control-label fw-bold" })
+                                <span class="text-danger fw-bold">*</span>
+                                @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", placeholder = "Enter Mobile Number" })
+                                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger fw-bold" })
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Email, new { @class = "control-label fw-bold" })
+                                <span class="text-danger fw-bold">*</span>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter Email Address" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger fw-bold" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label fw-bold" })
+                                <span class="text-danger fw-bold">*</span>
+                                @Html.DropDownListFor(model => model.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"),
+                                    "--Select--", new { @class = "form-control", id = "Department" })
+                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger fw-bold" })
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label" })
-            @Html.DropDownListFor(model => model.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"),
-            "--Select--", new { @class = "form-control", id = "Department" })
-            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.DesignationId, new { @class = "control-label" })
-            @Html.DropDownListFor(model => model.DesignationId, Enumerable.Empty<SelectListItem>(), 
-            "--Select--", new { @class = "form-control", id = "Designation" })
-                @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
-        </div>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.DesignationId, new { @class = "control-label fw-bold" })
+                                <span class="text-danger fw-bold">*</span>
+                                @Html.DropDownListFor(model => model.DesignationId, Enumerable.Empty<SelectListItem>(),
+                                    "--Select--", new { @class = "form-control", id = "Designation" })
+                                @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger fw-bold" })
+                            </div>
+                            <div class="col-md-6">
 
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary w-100" />
-        </div>
-        }
-        <div class="mt-3">
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-end">
+                        <input type="submit" value="Create" class="btn btn-primary" style="width: 120px;"/>
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-<script>
+
+    <script>
     $(document).ready(function () {
     var dId = document.getElementById('Department').value;
     if(dId != ""){
@@ -89,5 +112,5 @@
             });
         }
     });
-</script>
+    </script>
 }

@@ -141,5 +141,19 @@ namespace EmployeeMVC.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> IsEmailUnique(string email)
+        {
+            var isUnique = await _db.Employee.AnyAsync(e => e.Email == email);
+            return Json(!isUnique, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> IsMobileUnique(string mobile)
+        {
+            var isUnique = await _db.Employee.AnyAsync(e => e.Mobile == mobile);
+            return Json(!isUnique, JsonRequestBehavior.AllowGet);
+        }
     }
 }
