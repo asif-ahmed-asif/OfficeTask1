@@ -94,7 +94,6 @@
                 data: { id: departmentId },
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
                     var designationDropdown = $("#Designation");
                     designationDropdown.empty();
                     designationDropdown.append($('<option></option>').val('').text('--Select--'));

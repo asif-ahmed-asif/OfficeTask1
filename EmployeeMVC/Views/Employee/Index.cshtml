@@ -76,13 +76,26 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`/Employee/Delete?id=${id}`, function (success) {
-                        document.getElementById("empid").remove();
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Employee")',
+                        type: 'POST',
+                        data: { id: empid },
+                        dataType: 'json',
+                        success: function (data) {
+                            var row = $("#" + empid);
+                            row.remove();
+                        },
+                        error: function () {
+
+                        }
                     });
 
                 }
             })
         }
 
+        //$(document).ready(function () {
+
+        //});
     </script>
 }
