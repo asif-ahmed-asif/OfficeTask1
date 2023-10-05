@@ -31,7 +31,7 @@
         }
         @foreach (var employee in Model)
         {
-            <tr class="text-center">
+            <tr class="text-center" id="@employee.EmpId">
                 <td>
                     @counter
                 </td>
@@ -63,8 +63,9 @@
 
 @section Scripts{
     <script>
-        var newUrl= '@Url.Action("Index","Employee")';
+        var empid;
         function deletealert(id) {
+            empid = id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -76,9 +77,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post(`/Employee/Delete?id=${id}`, function (success) {
-                        TempData["success"] = "Employee Successfully Removed!";
-                        window.location.href = newUrl;
-
+                        document.getElementById("empid").remove();
                     });
 
                 }
