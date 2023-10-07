@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace EmployeeMVC.Controllers
@@ -66,9 +67,9 @@ namespace EmployeeMVC.Controllers
             {
                 await ViewBagForDepartment();
             }
-           
 
-            return View();
+
+            return View(employee);
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -145,19 +146,13 @@ namespace EmployeeMVC.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<bool> IsEmailUnique(string email)
+        public async Task<JsonResult> IsEmailUnique(string email, int empId)
         {
-            var isUnique = await _db.Employee.AnyAsync(e => e.Email == email);
-            // return Json(!isUnique, JsonRequestBehavior.AllowGet);
-            return !isUnique;
+            return Json(!await _db.Employee.AnyAsync(u => u.Email == email && u.EmpId != empId), JsonRequestBehavior.AllowGet);
         }
-
-        [HttpPost]
-        public async Task<ActionResult> IsMobileUnique(string mobile)
+        public async Task<JsonResult> IsMobileUnique(string mobile, int empId)
         {
-            var isUnique = await _db.Employee.AnyAsync(e => e.Mobile == mobile);
-            return Json(!isUnique, JsonRequestBehavior.AllowGet);
+            return Json(!await _db.Employee.AnyAsync(u => u.Mobile == mobile && u.EmpId != empId), JsonRequestBehavior.AllowGet);
         }
     }
 }

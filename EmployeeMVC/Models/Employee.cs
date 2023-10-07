@@ -15,10 +15,13 @@ namespace EmployeeMVC.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        [Remote("IsMobileUnique", "Employee", HttpMethod = "POST", ErrorMessage = "Mobile number already exists.")]
+
+        [Remote("IsMobileUnique", "Employee", AdditionalFields = "EmpId",
+            ErrorMessage = "Mobile number already exists.")]
         public string Mobile { get; set; }
         [Required]
-        [Remote("IsEmailUnique", "Employee", HttpMethod = "POST", ErrorMessage = "Email already exists.")]
+        [Remote("IsEmailUnique", "Employee", AdditionalFields = "EmpId",
+            ErrorMessage = "Email already exists")]
         public string Email { get; set; }
         [Required]
         [DisplayName("Department")]
