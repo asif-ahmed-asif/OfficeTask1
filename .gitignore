@@ -1,2 +1,4 @@
 .vs
 EmployeeMVC/Web.config
+EmployeeMVC/bin
+EmployeeMVC/obj
