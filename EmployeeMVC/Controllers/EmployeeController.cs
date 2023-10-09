@@ -141,7 +141,7 @@ namespace EmployeeMVC.Controllers
                 _db.Employee.Remove(employee);
                 await _db.SaveChangesAsync();
                 TempData["success"] = "Employee Successfully Removed!";
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
             return View();
         }
