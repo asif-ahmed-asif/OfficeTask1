@@ -80,41 +80,44 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
-    $(document).ready(function () {
-    var dId = document.getElementById('Department').value;
-    if(dId != ""){
-        AjaxCall(dId);
-    }
+        $(document).ready(function () {
+            var dId = $("#Department").val();
 
-        $("#Department").change(function () {
-            var departmentId = $(this).val();
-            if(departmentId == ""){
-                var designationDropdown = $("#Designation");
-                designationDropdown.empty();
-                designationDropdown.append($('<option></option>').val('').text('--Select--'));
+            if(dId != ""){
+                AjaxCall(dId);
             }
-            AjaxCall(departmentId);
-        });
 
-        function AjaxCall(departmentId){
-            $.ajax({
-                url: '@Url.Action("GetDesignations", "Employee")',
-                type: 'GET',
-                data: { id: departmentId },
-                dataType: 'json',
-                success: function (data) {
+            $("#Department").change(function () {
+                var departmentId = $(this).val();
+                if (departmentId == "") {
                     var designationDropdown = $("#Designation");
                     designationDropdown.empty();
-                    designationDropdown.append($('<option></option>').val('').text('--Select--'));
-                    $.each(data, function (index, item) {
-                        designationDropdown.append($('<option></option>').val(item.Value).text(item.Text));
-                    });
-                },
-                error: function () {
-
+                    designationDropdown.append($('<option>').val('').text('--Select--'));
+                } else {
+                    AjaxCall(departmentId);
                 }
+           
             });
-        }
-    });
+
+            function AjaxCall(departmentId){
+                $.ajax({
+                    url: '@Url.Action("GetDesignations", "Employee")',
+                    type: 'GET',
+                    data: { id: departmentId },
+                    dataType: 'json',
+                    success: function (data) {
+                        var designationDropdown = $("#Designation");
+                        designationDropdown.empty();
+                        designationDropdown.append($('<option>').val('').text('--Select--'));
+                        $.each(data, function (index, item) {
+                            designationDropdown.append($('<option>').val(item.Value).text(item.Text));
+                        });
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        });
     </script>
 }
